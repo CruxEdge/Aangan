@@ -3,12 +3,13 @@
 //   node scripts/users.js reset <username>  new one-time password for someone who forgot theirs
 // One-time passwords are written to credentials.local.txt (not committed) and never printed.
 import { appendFileSync } from 'node:fs';
-import { neon } from '@neondatabase/serverless';
+import postgres from 'postgres';
 import { ensureUsers, resetPassword } from '../lib/users.js';
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error('Set DATABASE_URL first');
-const sql = neon(url.replace(/^(["'])(.*)\1$/, '$2'));
+const _pg = postgres(url.replace(/^(["'])(.*)\1$/, '$2'), { max: 1, prepare: false });
+const sql = { query: (t, p = []) => _pg.unsafe(t, p).then((r) => Array.from(r)) };
 const db = { query: (text, params = []) => sql.query(text, params) };
 const file = new URL('../credentials.local.txt', import.meta.url);
 

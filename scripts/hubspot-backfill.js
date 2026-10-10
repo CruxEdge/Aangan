@@ -1,11 +1,12 @@
 // Sends the demo leads to HubSpot so the founder's dashboard has a pipeline to show: won projects with their value,
 // and open leads at the stage the designer has reached. Only demo calls without a deal yet are sent, so it is safe to re-run.
 // Needs DATABASE_URL and HUBSPOT_TOKEN.
-import { neon } from '@neondatabase/serverless';
+import postgres from 'postgres';
 import { createDeal, STAGE_FOR_STATUS } from '../lib/hubspot.js';
 
 const strip = (v) => String(v || '').replace(/^(["'])(.*)\1$/, '$2');
-const sql = neon(strip(process.env.DATABASE_URL));
+const _pg = postgres(strip(process.env.DATABASE_URL), { max: 1, prepare: false });
+const sql = { query: (t, p = []) => _pg.unsafe(t, p).then((r) => Array.from(r)) };
 if (!process.env.HUBSPOT_TOKEN) throw new Error('Set HUBSPOT_TOKEN first');
 
 const rows = await sql.query(

@@ -4,12 +4,13 @@
 // Needs DATABASE_URL. Drawings are written to public/designs.
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { neon } from '@neondatabase/serverless';
+import postgres from 'postgres';
 import { seedDemo, removeDemo } from '../lib/demo/seed.js';
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error('Set DATABASE_URL first');
-const sql = neon(url.replace(/^(["'])(.*)\1$/, '$2'));
+const _pg = postgres(url.replace(/^(["'])(.*)\1$/, '$2'), { max: 1, prepare: false });
+const sql = { query: (t, p = []) => _pg.unsafe(t, p).then((r) => Array.from(r)) };
 const db = { query: (text, params = []) => sql.query(text, params) };
 
 if (process.argv.includes('--remove')) {

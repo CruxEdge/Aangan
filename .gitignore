@@ -2,6 +2,5 @@ node_modules
 .env
 .vercel
 .data
-.neon
 .claude/
 credentials.local.txt

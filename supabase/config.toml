@@ -1,0 +1,5 @@
+project_id = "xrenftwueqlzmpxuppjj"
+
+[functions.aangan]
+verify_jwt = false
+entrypoint = "./functions/aangan/index.ts"

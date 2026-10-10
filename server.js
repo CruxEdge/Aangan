@@ -1,5 +1,5 @@
 // Local server: runs the same handlers as the deployed functions, plus the two screens.
-// Uses Neon when DATABASE_URL is set, otherwise a local test database in ./.data
+// Uses Supabase when DATABASE_URL is set, otherwise a local test database in ./.data
 import http from 'node:http';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -14,7 +14,7 @@ if (existsSync(path.join(root, '.env'))) {
   }
 }
 
-// `npm run dev` ignores the Neon address in .env and uses the throwaway local database.
+// `npm run dev` ignores the Supabase address in .env and uses the throwaway local database.
 if (process.argv.includes('--local')) delete process.env.DATABASE_URL;
 
 if (!process.env.DATABASE_URL) {
@@ -23,9 +23,9 @@ if (!process.env.DATABASE_URL) {
   const pg = new PGlite(path.join(root, '.data', 'pglite'));
   for (const f of ['db/schema.sql', 'db/seed.sql']) await pg.exec(readFileSync(path.join(root, f), 'utf8'));
   globalThis.__testDb = { query: async (t, p = []) => (await pg.query(t, p)).rows };
-  console.log('Using the local test database (set DATABASE_URL to use Neon).');
+  console.log('Using the local test database (set DATABASE_URL to use Supabase).');
 } else {
-  console.log('Using Neon.');
+  console.log('Using Supabase.');
 }
 
 if (globalThis.__testDb && process.argv.includes('--demo')) {

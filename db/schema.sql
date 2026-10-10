@@ -67,7 +67,7 @@ create table if not exists users (
   id serial primary key,
   username text not null unique,
   name text not null,
-  role text not null check (role in ('frontdesk','designer','chayya')),
+  role text not null check (role in ('designer','chayya')),
   designer_id int references designers(id),
   password_hash text not null,
   must_change boolean not null default true,
@@ -176,4 +176,20 @@ create index if not exists files_project_idx on files (project_id)
 ;
 
 alter table users drop constraint if exists users_role_check;
-alter table users add constraint users_role_check check (role in ('frontdesk','designer','chayya'))
+alter table users add constraint users_role_check check (role in ('designer','chayya'))
+;
+
+-- Supabase exposes public tables over its REST API. Turn on row level security with no policies so the
+-- anon and authenticated keys see nothing; the API connects as the database owner, which bypasses it.
+alter table designers enable row level security;
+alter table rr_state enable row level security;
+alter table calls enable row level security;
+alter table bookings enable row level security;
+alter table status_events enable row level security;
+alter table users enable row level security;
+alter table sessions enable row level security;
+alter table projects enable row level security;
+alter table project_designs enable row level security;
+alter table project_photos enable row level security;
+alter table messages enable row level security;
+alter table files enable row level security
