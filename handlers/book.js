@@ -8,8 +8,9 @@ import { notifyBooking } from '../lib/handoff.js';
 export default route({}, async (req) => {
   const lead = withCallId(req.body || {});
   // A booking without these is useless to the designer. Hand the agent a next step instead of booking half a lead.
-  const ask = { caller_name: 'their name', caller_phone: 'their mobile number', project_type: 'what they want done', area: 'where the property is' };
-  const missing = Object.keys(ask).filter((k) => !String(lead[k] ?? '').trim());
+  const ask = { caller_name: 'their name', caller_phone: 'their 10 digit mobile number, one digit at a time', project_type: 'what they want done', area: 'where the property is' };
+  const digits = String(lead.caller_phone ?? '').replace(/\D/g, '');
+  const missing = Object.keys(ask).filter((k) => (k === 'caller_phone' ? digits.length < 10 || digits.length > 12 || /^(\d)\1+$/.test(digits) : !String(lead[k] ?? '').trim()));
   if (missing.length) {
     return {
       booked: false,

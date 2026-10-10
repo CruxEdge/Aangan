@@ -115,3 +115,14 @@ test('booking without a phone number or area asks for them instead of booking', 
   assert.equal(calls[0].booked, false);
   assert.deepEqual(calls[0].missing, ['caller_phone', 'area']);
 });
+
+test('a garbled phone number is not accepted for a booking', async () => {
+  const { default: book } = await import('../handlers/book.js');
+  for (const phone of ['0'.repeat(60), '12345', '9999999999']) {
+    const out = [];
+    const res = { status: () => res, json: (b) => { out.push(b); return res; }, setHeader() {} };
+    await book({ method: 'POST', headers: { 'x-api-key': process.env.AGENT_API_KEY }, body: { caller_name: 'T', project_type: '3BHK', area: 'Kothrud', caller_phone: phone } }, res);
+    assert.equal(out[0].booked, false, phone);
+    assert.deepEqual(out[0].missing, ['caller_phone']);
+  }
+});
