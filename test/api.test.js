@@ -106,3 +106,12 @@ test('after a booking, Chayya saves the message to the designer and a confirmati
   assert.match(rows[1].body, /Your designer Aryan will call you on /);
   assert.equal(rows[1].status, 'not_sent');
 });
+
+test('booking without a phone number or area asks for them instead of booking', async () => {
+  const { default: book } = await import('../handlers/book.js');
+  const calls = [];
+  const res = { status: () => res, json: (b) => { calls.push(b); return res; }, setHeader() {} };
+  await book({ method: 'POST', headers: { 'x-api-key': process.env.AGENT_API_KEY }, body: { caller_name: 'Test', project_type: '3BHK' } }, res);
+  assert.equal(calls[0].booked, false);
+  assert.deepEqual(calls[0].missing, ['caller_phone', 'area']);
+});

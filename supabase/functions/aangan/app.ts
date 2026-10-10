@@ -4652,6 +4652,15 @@ async function notifyEscalation(call, fetchImpl = fetch) {
 // handlers/book.js
 var book_default = route({}, async (req) => {
   const lead = withCallId(req.body || {});
+  const ask = { caller_name: "their name", caller_phone: "their mobile number", project_type: "what they want done", area: "where the property is" };
+  const missing = Object.keys(ask).filter((k) => !String(lead[k] ?? "").trim());
+  if (missing.length) {
+    return {
+      booked: false,
+      missing,
+      next_step: `Do not book yet. Ask the caller for ${missing.map((k) => ask[k]).join(" and ")}, then call this tool again with every detail they gave you.`
+    };
+  }
   const booking = await bookLead(getDb(), lead);
   if (booking.error) return { booked: false, spoken: "Our team will call you shortly to fix a time.", ...booking };
   if (booking.repeated) return { booked: true, repeated: true, spoken: booking.spoken };
