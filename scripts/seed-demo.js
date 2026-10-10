@@ -19,3 +19,5 @@ if (process.argv.includes('--remove')) {
   const designsDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', 'designs');
   console.log(await seedDemo(db, { designsDir }));
 }
+
+await _pg.end();

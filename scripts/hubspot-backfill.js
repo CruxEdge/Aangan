@@ -38,3 +38,5 @@ for (const r of rows) {
   await new Promise((resolve) => setTimeout(resolve, 150));
 }
 console.log(`sent ${done} of ${rows.length} to HubSpot`);
+
+await _pg.end();

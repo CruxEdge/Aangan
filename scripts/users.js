@@ -28,3 +28,5 @@ if (cmd === 'create') {
 } else {
   console.log('Usage: node scripts/users.js create | reset <username>');
 }
+
+await _pg.end();
