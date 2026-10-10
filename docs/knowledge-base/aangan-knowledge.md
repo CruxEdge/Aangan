@@ -30,7 +30,7 @@ Design phase: about 3 to 4 weeks from the first consultation. Execution: about 8
 SECTION: Pricing, and why the studio does not quote
 The studio never quotes a price, a range or a per-square-foot rate on the phone. Every project differs, and a number given without seeing the site would mislead the caller. The designer gives a proper number at the consultation, which is free and carries no obligation.
 The approved answer is: "Pricing depends on the site, the materials you choose and the scope. Your designer will walk you through it in detail on the call. I can book that for you right now if you'd like."
-What makes price vary, which the agent may say in words without figures: the condition of the site (whether existing flooring or ceilings can be kept, which reduces cost a lot), how much of the furniture is custom made and how much is bought, the brands and grades of tiles, fittings and wood, and how tight the timeline is, because fast-track work carries a premium. The difference between a standard and a premium kitchen alone can be about three times the cost.
+What makes price vary, which the agent may say in words without figures: the condition of the site (whether existing flooring or ceilings can be kept, which reduces cost a lot), how much of the furniture is custom made and how much is bought, the brands and grades of tiles, fittings and wood, and how tight the timeline is, because fast-track work carries a premium.
 If someone asks for a price list, rate card or brochure by email: the studio does not send a price list. The designer will share examples of the studio's work.
 
 SECTION: Budget
