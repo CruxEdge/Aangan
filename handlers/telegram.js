@@ -7,6 +7,16 @@ import { moveDeal } from '../lib/hubspot.js';
 export default route({ auth: 'none' }, async (req) => {
   const secret = process.env.TELEGRAM_WEBHOOK_SECRET;
   if (!secret || req.headers['x-telegram-bot-api-secret-token'] !== secret) return { ignored: true };
+  // Anyone who messages the bot gets their chat id back, so it can be saved as a designer's telegram_chat_id.
+  const msg = req.body?.message;
+  if (msg?.chat?.id && process.env.TELEGRAM_BOT_TOKEN) {
+    await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ chat_id: msg.chat.id, text: `Aangan Studio bot. Your chat id is ${msg.chat.id}.` }),
+    }).catch(() => {});
+    return { ok: true, replied: true };
+  }
   const cb = req.body?.callback_query;
   const m = /^s:(\d+):([a-z_]+)$/.exec(cb?.data || '');
   if (!m) return { ignored: true };

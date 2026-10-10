@@ -24,5 +24,5 @@ designer's leads, and the Chayya login cannot open designer pages. Demo data (85
 ## Known gaps (honest list)
 - No real phone number yet (a paid decision); WhatsApp not connected (messages saved as not sent); one shared Telegram chat.
 - Vaani transcripts are not synced to the dashboard until a Vaani API key is connected.
-- HubSpot founder dashboard and deal sync are not live: the connected HubSpot account is a school's admissions CRM, pending a decision (see `docs/SETUP.md`).
+- HubSpot: 74 demo deals and a founder dashboard (stage charts and won value, 62,380,000) are live; charts by tier, source and designer need a paid HubSpot plan. New bookings create deals automatically.
 - Weak demo password by design. Secrets shared in chat must be rotated.

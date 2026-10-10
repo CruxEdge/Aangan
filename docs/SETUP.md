@@ -11,7 +11,7 @@ Last updated 10 Oct 2026. Evaluator one-pager: `docs/EVALUATOR.md`.
 | API | Supabase Edge Function `aangan` | `https://xrenftwueqlzmpxuppjj.supabase.co/functions/v1/aangan` |
 | Dashboard | Vercel project `aangan-studio`, auto-deploys from GitHub `CruxEdge/Aangan` `main` | https://aangan-studio-orcin.vercel.app, `/api/*` is proxied to the function (`vercel.json`) |
 | Telegram | Bot `@aanganstudioagbot`, webhook to `/api/telegram` | Needs a chat id per designer (see below) |
-| CRM | HubSpot (service key `aangan-studio`) | 8 `aangan_*` deal properties exist. Deals are NOT sent yet, see "Open decisions" |
+| CRM | HubSpot account "aangan studio" (ID 247655121, free plan), service key `aangan-studio` | 8 `aangan_*` deal properties, 74 demo deals, dashboard "Aangan Studio: Founder view" |
 
 ## Logins
 
@@ -67,11 +67,13 @@ Until then bookings succeed and the Telegram step is reported as skipped.
 
 ## Open decisions and known gaps
 
-1. **HubSpot account.** The connected account is "Mesa School of Business" and its only deal pipeline is the school's
-   Admissions Sales Pipeline (free plan allows one). A first backfill attempt failed on stage ids and created about 74 demo
-   contacts and no deals. Nothing further is sent until a decision: use a separate HubSpot account, or map the stages onto the
-   admissions pipeline, or skip HubSpot for the demo. `lib/hubspot.js` `STAGE_FOR_STATUS` holds the stage mapping.
-2. The founder reports dashboard in HubSpot is not built yet (blocked on 1).
+1. **HubSpot dashboard is partial (free plan).** Saved on the dashboard: Deals by Stage, Deal stage overview, and a totals table
+   (74 deals, 62,380,000 closed). Reports grouped by the `aangan_*` properties (tier, source, designer) cannot be saved on the
+   free plan: "Create from scratch" and saving an AI-built report are locked. The data is in HubSpot (tier: standard 39, priority 25, hot 10)
+   and a paid plan would unlock those three charts. Our deals have no HubSpot owner, so "by rep" shows one Unassigned row.
+   The backfill sends the 74 qualified demo leads (the brief says 75).
+2. An earlier mistaken run touched the school's HubSpot (Mesa School of Business): 74 demo contacts were created and then archived,
+   and a service key `aangan-studio` plus the 8 `aangan_*` properties were added there. Delete that key and those properties.
 3. Vaani tool headers need the agent key pasted by hand.
 4. Vaani speech-to-text boost keywords would not accept entries for Sarvam, so studio and place names are not boosted.
 5. No real phone number yet (a paid Vaani Telephony decision). Calls are tested with the Vaani web audio test.
