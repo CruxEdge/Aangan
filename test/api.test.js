@@ -28,7 +28,7 @@ test('check-area tool', async () => {
 test('book tool returns a sentence the agent can say, and works without Telegram or HubSpot keys', async () => {
   await testDb();
   const res = await call('book', {
-    call_id: 'x1', caller_name: 'Priya', caller_phone: '+91', project_type: '3BHK full home', area: 'Kothrud', size_sqft: 1400,
+    call_id: 'x1', caller_name: 'Priya', caller_phone: '+91 98220 11234', project_type: '3BHK full home', area: 'Kothrud', size_sqft: 1400,
     timeline_text: 'by March', decision_maker: 'owner', referral: true, start_within_weeks: 26, source: 'referral',
   });
   assert.equal(res.statusCode, 200);
@@ -47,7 +47,7 @@ test('log-call tool validates the outcome', async () => {
 
 test('handoff message carries tier, deadline, booked time and the fields the designer needs', () => {
   const text = formatHandoff(
-    { caller_name: 'Priya', area: 'Kothrud', project_type: '3BHK full home', size_sqft: 1400, timeline_text: 'by March', decision_maker: 'owner', source: 'referral', caller_phone: '+91' },
+    { caller_name: 'Priya', area: 'Kothrud', project_type: '3BHK full home', size_sqft: 1400, timeline_text: 'by March', decision_maker: 'owner', source: 'referral', caller_phone: '+91 98220 11234' },
     { tier: 'priority', designer_name: 'Meera', tier_reasons: ['referral'], call_by: new Date(Date.UTC(2026, 9, 8, 5, 30)), slot: new Date(Date.UTC(2026, 9, 8, 6, 0)), window_missed: false },
   );
   assert.match(text, /^Chayya, front desk\. New PRIORITY lead for Meera:\nreferral/);

@@ -14,7 +14,7 @@ const JSON_HEADERS = { 'content-type': 'application/json' };
 const login = (username, password, host = 'localhost:3000') =>
   request('login', { headers: { ...JSON_HEADERS, host }, body: { username, password } });
 const book = (id, name, area = 'Baner') =>
-  request('book', { headers: AGENT, body: { call_id: id, caller_name: name, caller_phone: `+91 9000${id}`, project_type: '2BHK', area } });
+  request('book', { headers: AGENT, body: { call_id: id, caller_name: name, caller_phone: `+91 9800${String(id).replace(/\D/g, "").padStart(6, "1")}`, project_type: '2BHK', area } });
 
 test('password hashes verify, and the wrong password or a different hash does not', async () => {
   const h = await hashPassword('Right-pass-1');
